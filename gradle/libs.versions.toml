@@ -1,0 +1,82 @@
+[versions]
+kotlin                  = "2.3.21"
+ktor                    = "2.3.11"
+exposed                 = "0.50.1"
+postgresql              = "42.7.3"
+hikari                  = "5.1.0"
+firebase-admin          = "9.2.0"
+stripe                  = "24.3.0"
+kotlinxSerializationJSON = "1.9.0"
+kotlinxDatetime         = "0.7.1"
+kotlinxCoroutines       = "1.10.2"
+logback                 = "1.5.6"
+dotenv                  = "6.4.1"
+
+[libraries]
+# Kotlin Gradle Plugin
+kotlinGradlePlugin              = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+
+# Kotlinx Ecosystem
+kotlinxDatetime                 = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinxSerialization            = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJSON" }
+kotlinxCoroutines               = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+
+# Ktor Web Server
+ktor-server-core                = { group = "io.ktor", name = "ktor-server-core-jvm", version.ref = "ktor" }
+ktor-server-netty               = { group = "io.ktor", name = "ktor-server-netty-jvm", version.ref = "ktor" }
+ktor-server-websockets          = { group = "io.ktor", name = "ktor-server-websockets-jvm", version.ref = "ktor" }
+ktor-server-content-negotiation = { group = "io.ktor", name = "ktor-server-content-negotiation-jvm", version.ref = "ktor" }
+ktor-server-cors                = { group = "io.ktor", name = "ktor-server-cors-jvm", version.ref = "ktor" }
+ktor-server-status-pages        = { group = "io.ktor", name = "ktor-server-status-pages-jvm", version.ref = "ktor" }
+ktor-server-call-logging        = { group = "io.ktor", name = "ktor-server-call-logging-jvm", version.ref = "ktor" }
+ktor-server-auth                = { group = "io.ktor", name = "ktor-server-auth-jvm", version.ref = "ktor" }
+ktor-serialization-kotlinx      = { group = "io.ktor", name = "ktor-serialization-kotlinx-json-jvm", version.ref = "ktor" }
+ktor-server-test-host           = { group = "io.ktor", name = "ktor-server-test-host", version.ref = "ktor" }
+
+# Firebase Engine
+firebase-admin                  = { group = "com.google.firebase", name = "firebase-admin", version.ref = "firebase-admin" }
+
+# Exposed ORM Database Components
+exposed-core                    = { group = "org.jetbrains.exposed", name = "exposed-core", version.ref = "exposed" }
+exposed-dao                     = { group = "org.jetbrains.exposed", name = "exposed-dao", version.ref = "exposed" }
+exposed-jdbc                    = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version.ref = "exposed" }
+exposed-java-time               = { group = "org.jetbrains.exposed", name = "exposed-java-time", version.ref = "exposed" }
+
+# Database Drivers
+postgresql                      = { group = "org.postgresql", name = "postgresql", version.ref = "postgresql" }
+hikari                          = { group = "com.zaxxer", name = "HikariCP", version.ref = "hikari" }
+
+# Payment Gateways
+stripe                          = { group = "com.stripe", name = "stripe-java", version.ref = "stripe" }
+
+# Runtime Utilities
+logback                         = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
+dotenv                          = { group = "io.github.cdimascio", name = "dotenv-kotlin", version.ref = "dotenv" }
+
+[bundles]
+kotlinxEcosystem                = [
+    "kotlinxDatetime",
+    "kotlinxSerialization",
+    "kotlinxCoroutines"
+]
+ktor                            = [
+    "ktor-server-core",
+    "ktor-server-netty",
+    "ktor-server-websockets",
+    "ktor-server-content-negotiation",
+    "ktor-server-cors",
+    "ktor-server-status-pages",
+    "ktor-server-call-logging",
+    "ktor-server-auth",
+    "ktor-serialization-kotlinx"
+]
+exposed                         = [
+    "exposed-core",
+    "exposed-dao",
+    "exposed-jdbc",
+    "exposed-java-time"
+]
+
+[plugins]
+kotlinPluginSerialization       = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ktor                            = { id = "io.ktor.plugin", version.ref = "ktor" }
