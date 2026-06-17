@@ -10,9 +10,11 @@ object DatabaseFactory {
 
     // Reads from your hidden .env file at the root folder
     private val dotenv = dotenv {
-        directory = "../" // Backs up one directory since submodules execute out of their own paths
+        // Checks the root folder first; if missing, searches the parent folder fallback path
+        directory = if (java.io.File(".env").exists()) "./" else "../"
         ignoreIfMissing = true
     }
+
 
     fun init() {
         val database = Database.connect(createHikariDataSource())
