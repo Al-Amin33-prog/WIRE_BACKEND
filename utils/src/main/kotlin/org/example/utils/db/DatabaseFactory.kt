@@ -30,14 +30,22 @@ object DatabaseFactory {
     private fun createHikariDataSource(): HikariDataSource {
         val config = HikariConfig().apply {
             driverClassName = "org.postgresql.Driver"
-            jdbcUrl = dotenv["DATABASE_URL"] ?: "jdbc:postgresql://localhost:5432/wire_db"
+
+            // Use the env variable or fallback to local dev string
+            val envUrl = dotenv["DATABASE_URL"]
+            jdbcUrl = envUrl ?: "jdbc:postgresql://localhost:5432/wire_db"
+
+            // If using a standard jdbcUrl, we still need these:
             username = dotenv["DATABASE_USER"] ?: "postgres"
             password = dotenv["DATABASE_PASSWORD"] ?: "password"
 
-            // Standard Hikari enterprise production connection pooling optimizations
             maximumPoolSize = 10
             isAutoCommit = false
             transactionIsolation = "TRANSACTION_REPEATABLE_READ"
+
+            // Optimization for PostgreSQL
+            addDataSourceProperty("cachePrepStmts", "true")
+            addDataSourceProperty("prepStmtCacheSize", "250")
             validate()
         }
         return HikariDataSource(config)

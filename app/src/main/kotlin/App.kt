@@ -1,6 +1,7 @@
 package org.example.app
 
 
+import io.ktor.server.application.Application
 import org.example.utils.org.example.utils.db.DatabaseFactory
 import org.example.app.config.FirebaseAdmin // Import your Firebase Config
 import org.example.app.routes.authRoutes     // Import your Auth Routes
@@ -8,6 +9,7 @@ import org.example.app.routes.authRoutes     // Import your Auth Routes
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.routing.* // Import Ktor routing extension
+import org.example.app.plugins.configureRouting
 
 fun main() {
     println("Starting Wire Backend Engine...")
@@ -36,4 +38,7 @@ fun main() {
             authRoutes()
         }
     }.start(wait = true)
+    fun Application.module(){
+        configureRouting()
+    }
 }
