@@ -3,7 +3,9 @@ package org.example.utils.org.example.utils.db
 import io.github.cdimascio.dotenv.dotenv
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import org.example.utils.org.example.utils.entity.UsersTable
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object DatabaseFactory {
@@ -22,7 +24,9 @@ object DatabaseFactory {
         // This is a test query block to confirm your connection is alive upon application launch
         transaction(database) {
             // Cleaner execution format
-            exec("SELECT 1;")
+            SchemaUtils.createMissingTablesAndColumns(
+                UsersTable
+            )
         }
 
     }
@@ -51,3 +55,8 @@ object DatabaseFactory {
         return HikariDataSource(config)
     }
 }
+
+
+
+
+
