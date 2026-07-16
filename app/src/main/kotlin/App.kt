@@ -33,6 +33,7 @@ fun main() {
 
     // 3. Start your Ktor Netty Server
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
+
         // Plug your route controllers into the Ktor module tree
         routing {
             authRoutes()
