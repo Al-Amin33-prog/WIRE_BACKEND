@@ -1,6 +1,7 @@
 package org.example.app.services
 
-import org.example.app.repository.UserRepository
+
+import org.example.utils.org.example.utils.repository.UserRepository
 
 class AuthApiService(
     private val repository: UserRepository
@@ -9,9 +10,9 @@ class AuthApiService(
         uid:String,
         email: String
     ){
-        repository.createUser(
+        repository.getUser(
             uid,
-            email
+
         )
     }
 }
