@@ -71,12 +71,36 @@ class UserRepositoryImpl : UserRepository {
                         uid = it[UsersTable.uid],
                         email = it[UsersTable.email],
                         displayName = it[UsersTable.displayName],
-                        phone = it[UsersTable.phone]
+                        phone = it[UsersTable.phone],
+                        pinHash = it[UsersTable.pinHsh],
+                        biometricEnabled = it[UsersTable.biometricEnabled],
                     )
 
                 }
 
         }
 
+    }
+
+    override suspend fun savePinHash(uid: String, pinHash: String) {
+        transaction {
+            UsersTable.update({
+                UsersTable.uid eq uid
+            }){
+                it[UsersTable.pinHsh] = pinHash
+                it[updatedAt] = Instant.now()
+            }
+        }
+    }
+
+    override suspend fun updateBiometric(uid: String, enabled: Boolean) {
+        transaction {
+            UsersTable.update({
+                UsersTable.uid eq uid
+            }){
+                it[biometricEnabled] = enabled
+                it[updatedAt] = Instant.now()
+            }
+        }
     }
 }
