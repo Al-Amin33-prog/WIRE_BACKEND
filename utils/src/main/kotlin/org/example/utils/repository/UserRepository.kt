@@ -10,4 +10,12 @@ interface UserRepository {
         phone: String?
     )
     suspend fun getUser(uid:String):UserDto?
+    suspend fun savePinHash(
+        uid: String,
+        pinHash: String
+    )
+    suspend fun updateBiometric(
+        uid: String,
+        enabled: Boolean
+    )
 }
