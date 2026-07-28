@@ -10,6 +10,7 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.routing.* // Import Ktor routing extension
 import org.example.app.plugins.configureRouting
+import org.example.app.routes.securityRoutes
 
 fun main() {
     println("Starting Wire Backend Engine...")
@@ -37,6 +38,7 @@ fun main() {
         // Plug your route controllers into the Ktor module tree
         routing {
             authRoutes()
+            securityRoutes()
         }
     }.start(wait = true)
     fun Application.module(){
