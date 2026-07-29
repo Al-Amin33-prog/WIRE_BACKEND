@@ -35,6 +35,7 @@ class SecurityController(
           token.uid,
           request.biometricEnabled
       )
+        call.respond(HttpStatusCode.OK)
     }
 
 }

@@ -5,11 +5,11 @@ import io.ktor.client.request.header
 import io.ktor.client.request.patch
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import io.ktor.http.headers
 import io.ktor.server.testing.testApplication
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -27,6 +27,8 @@ class SecurityRouteTest {
                 """.trimIndent()
             )
         }
+        println(response.status)
+        println(response.bodyAsText())
         assertEquals(HttpStatusCode.Unauthorized, response.status)
 
     }
@@ -40,10 +42,15 @@ class SecurityRouteTest {
             contentType(ContentType.Application.Json)
             setBody(
                 """
-                    "pinHas" : "HASH_123456789"
-                """.trimIndent()
+                    {
+                    "pinHash" : "HASH_123456789"
+                    }                    
+                """
+                    .trimIndent()
             )
         }
+        println(response.status)
+        println(response.bodyAsText())
         assertEquals(
             HttpStatusCode.OK,
             response.status
@@ -59,10 +66,14 @@ class SecurityRouteTest {
             contentType(ContentType.Application.Json)
             setBody(
                 """
+                    {
                     "biometricEnabled":true
+                    }                    
                 """.trimIndent()
             )
         }
+        println(response.status)
+        println(response.bodyAsText())
         assertEquals(
             HttpStatusCode.OK,
             response.status
@@ -70,12 +81,14 @@ class SecurityRouteTest {
     }
     @Test
     fun`GET security settings returns user settings`() = testApplication {
-        val response = client.get("/api/security//setting"){
+        val response = client.get("/api/security/setting"){
             header(
                 HttpHeaders.Authorization,
                 "Bearer TEST_TOKEN"
             )
         }
+        println(response.status)
+        println(response.bodyAsText())
         assertEquals(
             HttpStatusCode.OK,
             response.status

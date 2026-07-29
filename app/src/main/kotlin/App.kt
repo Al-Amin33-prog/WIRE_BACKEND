@@ -3,14 +3,11 @@ package org.example.app
 
 import io.ktor.server.application.Application
 import org.example.utils.org.example.utils.db.DatabaseFactory
-import org.example.app.config.FirebaseAdmin // Import your Firebase Config
-import org.example.app.routes.authRoutes     // Import your Auth Routes
-
+import org.example.app.config.FirebaseAdmin
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
-import io.ktor.server.routing.* // Import Ktor routing extension
 import org.example.app.plugins.configureRouting
-import org.example.app.routes.securityRoutes
+
 
 fun main() {
     println("Starting Wire Backend Engine...")
@@ -35,13 +32,9 @@ fun main() {
     // 3. Start your Ktor Netty Server
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
 
-        // Plug your route controllers into the Ktor module tree
-        routing {
-            authRoutes()
-            securityRoutes()
-        }
     }.start(wait = true)
-    fun Application.module(){
-        configureRouting()
-    }
+
+}
+fun Application.module(){
+    configureRouting()
 }
