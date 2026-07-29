@@ -30,9 +30,12 @@ fun main() {
     }
 
     // 3. Start your Ktor Netty Server
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
-
-    }.start(wait = true)
+    embeddedServer(
+        Netty,
+        port = 8080,
+        host = "0.0.0.0",
+        module = Application::module
+        ).start(wait = true)
 
 }
 fun Application.module(){

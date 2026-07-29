@@ -17,6 +17,9 @@ import kotlin.test.assertEquals
 class SecurityRouteTest {
     @Test
     fun `POST security without token`() = testApplication {
+        application {
+            module()
+        }
         val response = client.post("/api/security/pin"){
             contentType(ContentType.Application.Json)
             setBody(
@@ -34,6 +37,9 @@ class SecurityRouteTest {
     }
     @Test
    fun  `POST security pin stores hashed pin  `() = testApplication {
+       application {
+           module()
+       }
         val response = client.post("/api/security/pin"){
             header(
                 HttpHeaders.Authorization,
@@ -58,6 +64,9 @@ class SecurityRouteTest {
     }
     @Test
     fun` PATCH biometric updates status`() = testApplication {
+        application {
+            module()
+        }
         val response = client.patch("/api/security/biometric"){
             header(
                 HttpHeaders.Authorization,
@@ -81,6 +90,9 @@ class SecurityRouteTest {
     }
     @Test
     fun`GET security settings returns user settings`() = testApplication {
+        application {
+            module()
+        }
         val response = client.get("/api/security/setting"){
             header(
                 HttpHeaders.Authorization,
