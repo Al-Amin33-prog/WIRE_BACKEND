@@ -22,6 +22,6 @@ object UsersTable : Table("users") {
     val updatedAt = timestamp("updated_at")
 
     override val primaryKey = PrimaryKey(uid)
-    val pinHsh = varchar("pin_hash",255).nullable()
+    val pinHash = varchar("pin_hash",255).nullable()
     val biometricEnabled = bool("biometric_enabled").default(false)
 }

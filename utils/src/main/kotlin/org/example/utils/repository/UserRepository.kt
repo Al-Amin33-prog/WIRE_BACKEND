@@ -1,5 +1,6 @@
 package org.example.utils.org.example.utils.repository
 
+import org.example.utils.org.example.utils.dto.SecuritySettingsDto
 import org.example.utils.org.example.utils.dto.UserDto
 
 interface UserRepository {
@@ -18,4 +19,7 @@ interface UserRepository {
         uid: String,
         enabled: Boolean
     )
+    suspend fun getSecuritySettings(
+        uid: String
+    ): SecuritySettingsDto
 }

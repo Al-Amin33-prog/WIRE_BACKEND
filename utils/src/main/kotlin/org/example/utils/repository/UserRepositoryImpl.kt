@@ -2,6 +2,7 @@ package org.example.utils.org.example.utils.repository
 
 
 
+import org.example.utils.org.example.utils.dto.SecuritySettingsDto
 import org.example.utils.org.example.utils.dto.UserDto
 import org.example.utils.org.example.utils.entity.UsersTable
 import org.jetbrains.exposed.sql.*
@@ -72,7 +73,7 @@ class UserRepositoryImpl : UserRepository {
                         email = it[UsersTable.email],
                         displayName = it[UsersTable.displayName],
                         phone = it[UsersTable.phone],
-                        pinHash = it[UsersTable.pinHsh],
+                        pinHash = it[UsersTable.pinHash],
                         biometricEnabled = it[UsersTable.biometricEnabled],
                     )
 
@@ -87,7 +88,7 @@ class UserRepositoryImpl : UserRepository {
             UsersTable.update({
                 UsersTable.uid eq uid
             }){
-                it[UsersTable.pinHsh] = pinHash
+                it[UsersTable.pinHash] = pinHash
                 it[updatedAt] = Instant.now()
             }
         }
@@ -102,5 +103,19 @@ class UserRepositoryImpl : UserRepository {
                 it[updatedAt] = Instant.now()
             }
         }
+    }
+
+    override suspend fun getSecuritySettings(uid: String): SecuritySettingsDto {
+        return transaction {
+            val user = UsersTable
+                .selectAll()
+                .where{ UsersTable.uid eq uid }
+                .single()
+            SecuritySettingsDto(
+                hasPin = ! user[UsersTable.pinHash].isNullOrBlank(),
+                biometricEnabled = user[UsersTable.biometricEnabled]
+            )
+        }
+
     }
 }
