@@ -23,4 +23,10 @@ class SecurityApiService(
             enabled
         )
     }
+    suspend fun getSecuritySettings(
+        uid: String
+    ){
+        repository.getSecuritySettings(uid)
+    }
+
 }
