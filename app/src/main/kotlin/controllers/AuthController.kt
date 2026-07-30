@@ -1,22 +1,20 @@
 package org.example.app.controllers
 
-import com.google.firebase.auth.FirebaseToken
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.response.respond
-import org.example.app.services.AuthApiService
+import org.example.app.security.AuthUser
+import org.example.app.services.AuthService
 
 class AuthController(
-    private val authApiService: AuthApiService
+    private val authService: AuthService
 ) {
     suspend fun syncUser(
         call: ApplicationCall,
-        token: FirebaseToken
+        user: AuthUser
     ){
-        authApiService.syncUser(
-            token.uid,
-            token.email ?: ""
-        )
+        authService.syncUser(user)
+
         call.respond(
             HttpStatusCode.Created,
             "User synchronized"

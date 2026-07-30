@@ -1,10 +1,11 @@
 package org.example.app.controllers
 
-import com.google.firebase.auth.FirebaseToken
+
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
+import org.example.app.security.AuthUser
 import org.example.app.services.SecurityApiService
 import org.example.utils.org.example.utils.dto.UpdateBiometricRequest
 import org.example.utils.org.example.utils.dto.UploadPinRequest
@@ -27,15 +28,27 @@ class SecurityController(
         )
     }
     suspend fun updateBiometric(
-        call: ApplicationCall,
-        token: FirebaseToken,
-        request: UpdateBiometricRequest
+         call: ApplicationCall,
+         user: AuthUser,
+          request: UpdateBiometricRequest
     ){
       service.updateBiometric(
-          token.uid,
+          user.uid,
           request.biometricEnabled
       )
         call.respond(HttpStatusCode.OK)
+    }
+    suspend fun getSecuritySettings(
+        call: ApplicationCall,
+        user: AuthUser
+    ){
+        val settings = service.getSecuritySettings(user.uid)
+        call.respond(
+            HttpStatusCode.OK,
+            settings
+        )
+
+
     }
 
 }
