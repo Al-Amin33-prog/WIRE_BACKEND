@@ -4,18 +4,33 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.server.testing.*
 import io.ktor.server.routing.*
+import org.example.app.auth.FirebaseAuthVerifier
+import org.example.app.controllers.AuthController
+import org.example.app.plugins.configureSerialization
 import org.example.app.routes.authRoutes
+import org.example.app.security.AuthVerifier
+import org.example.app.services.AuthService
+import org.example.utils.org.example.utils.repository.UserRepositoryImpl
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+private val repository = UserRepositoryImpl()
+private val authService = AuthService(repository)
+private val authController = AuthController(authService)
+private val verifier: AuthVerifier = FirebaseAuthVerifier()
 class AuthRoutingTest {
+
 
     @Test
     fun testSyncUserEndpointBlocksMissingAuthorizationHeader() = testApplication {
         // Spin up an isolated, mock Ktor testing context environment
         application {
+            configureSerialization()
             routing { // Now correctly resolved
-                authRoutes() // Now correctly resolved
+                authRoutes(
+                    controller = authController,
+                    verifier = verifier,
+                ) // Now correctly resolved
             }
         }
 
@@ -29,8 +44,12 @@ class AuthRoutingTest {
     @Test
     fun testSyncUserEndpointRejectsMalformedCounterfeitTokens() = testApplication {
         application {
+            configureSerialization()
             routing { // Now correctly resolved
-                authRoutes() // Now correctly resolved
+                authRoutes(
+                    controller = authController,
+                    verifier = verifier,
+                ) // Now correctly resolved
             }
         }
 

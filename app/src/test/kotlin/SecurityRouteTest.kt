@@ -1,5 +1,6 @@
 package org.example.app
 
+import io.ktor.server.routing.routing
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.patch
@@ -11,14 +12,29 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.server.testing.testApplication
+import org.example.app.controllers.SecurityController
+import org.example.app.plugins.configureSerialization
+import org.example.app.routes.securityRoutes
+import org.example.app.services.SecurityApiService
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+
+private val repository = FakeUserRepository()
+private val service = SecurityApiService(repository)
+private val controller = SecurityController(service)
+private val verifier = FakeAuthVerifier()
 class SecurityRouteTest {
     @Test
     fun `POST security without token`() = testApplication {
         application {
-            module()
+            configureSerialization()
+           routing {
+               securityRoutes(
+                   controller = controller,
+                   verifier = verifier
+               )
+           }
         }
         val response = client.post("/api/security/pin"){
             contentType(ContentType.Application.Json)
@@ -37,9 +53,15 @@ class SecurityRouteTest {
     }
     @Test
    fun  `POST security pin stores hashed pin  `() = testApplication {
-       application {
-           module()
-       }
+        application {
+            configureSerialization()
+            routing {
+                securityRoutes(
+                    controller = controller,
+                    verifier = verifier
+                )
+            }
+        }
         val response = client.post("/api/security/pin"){
             header(
                 HttpHeaders.Authorization,
@@ -65,7 +87,13 @@ class SecurityRouteTest {
     @Test
     fun` PATCH biometric updates status`() = testApplication {
         application {
-            module()
+            configureSerialization()
+            routing {
+                securityRoutes(
+                    controller = controller,
+                    verifier = verifier
+                )
+            }
         }
         val response = client.patch("/api/security/biometric"){
             header(
@@ -81,6 +109,7 @@ class SecurityRouteTest {
                 """.trimIndent()
             )
         }
+
         println(response.status)
         println(response.bodyAsText())
         assertEquals(
@@ -91,7 +120,13 @@ class SecurityRouteTest {
     @Test
     fun`GET security settings returns user settings`() = testApplication {
         application {
-            module()
+            configureSerialization()
+            routing {
+                securityRoutes(
+                    controller = controller,
+                    verifier = verifier
+                )
+            }
         }
         val response = client.get("/api/security/setting"){
             header(
