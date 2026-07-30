@@ -7,6 +7,7 @@ import org.example.app.config.FirebaseAdmin
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import org.example.app.plugins.configureRouting
+import org.example.app.plugins.configureSerialization
 
 
 fun main() {
@@ -39,5 +40,7 @@ fun main() {
 
 }
 fun Application.module(){
+    configureSerialization()
     configureRouting()
+
 }

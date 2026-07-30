@@ -9,18 +9,22 @@ import io.ktor.server.routing.patch
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import org.example.app.controllers.SecurityController
+import org.example.app.security.AuthVerifier
 import org.example.app.security.requireAuth
-import org.example.app.services.SecurityApiService
 import org.example.utils.org.example.utils.dto.UpdateBiometricRequest
-import org.example.utils.org.example.utils.repository.UserRepositoryImpl
 
-private val repository = UserRepositoryImpl()
-private val service = SecurityApiService(repository)
-private val controller = SecurityController(service)
-fun Route.securityRoutes(){
+
+
+fun Route.securityRoutes(
+    controller: SecurityController,
+    verifier: AuthVerifier
+){
+
     route("/api/security"){
         post("/pin"){
-            val firebaseUser = call.requireAuth() ?: return@post
+            val firebaseUser = call.requireAuth(
+                verifier
+            ) ?: return@post
             controller.uploadPin(
                 call,
                 firebaseUser.uid
@@ -28,7 +32,9 @@ fun Route.securityRoutes(){
 
         }
         patch("/biometric"){
-            val token = call.requireAuth() ?: return@patch
+            val token = call.requireAuth(
+               verifier
+            ) ?: return@patch
             val request = call.receive<UpdateBiometricRequest>()
             controller.updateBiometric(
                 call,
@@ -37,6 +43,11 @@ fun Route.securityRoutes(){
             )
         }
         get("/setting"){
+            val token = call.requireAuth(verifier)?: return@get
+            controller.getSecuritySettings(
+                call,
+                token
+            )
 
         }
 
