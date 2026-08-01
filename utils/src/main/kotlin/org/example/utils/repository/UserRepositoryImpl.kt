@@ -118,4 +118,25 @@ class UserRepositoryImpl : UserRepository {
         }
 
     }
+
+    override suspend fun findUserByEmail(email: String): UserDto? {
+        val normalizedEmail = email.trim().lowercase()
+
+        return transaction {
+            UsersTable
+                .selectAll()
+                .where{ UsersTable.email eq normalizedEmail }
+                .singleOrNull()
+                ?.let {
+                    UserDto(
+                        uid = it[UsersTable.uid],
+                        email = it[UsersTable.email],
+                        displayName = it[UsersTable.displayName],
+                        phone = it[UsersTable.phone],
+                        pinHash = it[UsersTable.pinHash],
+                        biometricEnabled = it[UsersTable.biometricEnabled]
+                    )
+                }
+        }
+    }
 }

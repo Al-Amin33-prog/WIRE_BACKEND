@@ -15,7 +15,15 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 private val repository = UserRepositoryImpl()
-private val authService = AuthService(repository)
+private val emailService = FakeEmailService()
+private val linkGenerator = FakePasswordResetLinkGenerator()
+
+private val authService = AuthService(
+    repository,
+    emailService,
+    linkGenerator,
+
+)
 private val authController = AuthController(authService)
 private val verifier: AuthVerifier = FirebaseAuthVerifier()
 class AuthRoutingTest {

@@ -17,7 +17,12 @@ class FakeUserRepository : UserRepository{
         )
     }
 
-    override suspend fun upsertUser(uid: String, email: String, displayName: String?, phone: String?) {
+    override suspend fun upsertUser(
+        uid: String,
+        email: String,
+        displayName: String?,
+        phone: String?
+    ) {
         users[uid] = UserDto(
             uid = uid,
             email = email,
@@ -53,5 +58,15 @@ class FakeUserRepository : UserRepository{
             hasPin = user.pinHash != null,
             biometricEnabled = user.biometricEnabled
         )
+    }
+
+    override suspend fun findUserByEmail(email: String): UserDto? {
+
+        users.values.forEach {
+            println(it)
+        }
+        return users.values.firstOrNull {
+            it.email == email
+        }
     }
 }

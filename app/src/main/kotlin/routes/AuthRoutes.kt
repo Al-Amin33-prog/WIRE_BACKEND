@@ -29,5 +29,8 @@ fun Route.authRoutes(
             )
 
         }
+        post("/forgot-password"){
+            controller.forgotPassword(call)
+        }
     }
 }

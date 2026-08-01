@@ -22,4 +22,7 @@ interface UserRepository {
     suspend fun getSecuritySettings(
         uid: String
     ): SecuritySettingsDto
+    suspend fun findUserByEmail(
+        email: String
+    ) : UserDto?
 }
