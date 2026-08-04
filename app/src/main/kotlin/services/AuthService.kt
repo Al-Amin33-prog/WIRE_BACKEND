@@ -24,16 +24,22 @@ class AuthService(
         email: String
     ){
         val normalizedEmail = email.trim().lowercase()
+        println("STEP 1")
         val user = repository.findUserByEmail(normalizedEmail)
+        println("User returned from repository: $user")
         if (user == null){
+            println("User not found")
             return
         }
+        println("STEP 3")
         val resetLink =
             linkGenerator.generateResetLink(normalizedEmail)
+        println("STEP 4")
             emailService.sendPasswordResetEmail(
                 normalizedEmail,
                 resetLink
             )
-        println(resetLink)
+        println("STEP 5")
+
     }
 }

@@ -12,13 +12,13 @@ import org.example.app.routes.authRoutes
 import org.example.app.routes.securityRoutes
 import org.example.app.security.AuthVerifier
 import org.example.app.services.AuthService
-import org.example.app.services.FirebaseEmailService
 import org.example.app.services.FirebasePasswordResetLinkGenerator
+import org.example.app.services.ResendEmailService
 import org.example.app.services.SecurityApiService
 import org.example.utils.org.example.utils.repository.UserRepositoryImpl
 
 fun Application.configureRouting() {
-    val emailService = FirebaseEmailService()
+    val emailService = ResendEmailService()
     val linkGenerator = FirebasePasswordResetLinkGenerator()
     val repository = UserRepositoryImpl()
     val verifier: AuthVerifier = FirebaseAuthVerifier()

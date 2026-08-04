@@ -11,8 +11,10 @@ kotlinxDatetime         = "0.7.1"
 kotlinxCoroutines       = "1.8.1"
 logback                 = "1.5.6"
 dotenv                  = "6.4.1"
+resend = "3.1.0"
 
 [libraries]
+resend = { group = "com.resend", name = "resend-java", version.ref = "resend" }
 # Kotlin Gradle Plugin
 kotlinGradlePlugin              = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 

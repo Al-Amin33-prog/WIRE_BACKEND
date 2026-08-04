@@ -121,13 +121,15 @@ class UserRepositoryImpl : UserRepository {
 
     override suspend fun findUserByEmail(email: String): UserDto? {
         val normalizedEmail = email.trim().lowercase()
+        println("Looking for email $normalizedEmail")
 
         return transaction {
-            UsersTable
+            val row = UsersTable
                 .selectAll()
                 .where{ UsersTable.email eq normalizedEmail }
                 .singleOrNull()
-                ?.let {
+                println("Database row found: $row")
+                row?.let {
                     UserDto(
                         uid = it[UsersTable.uid],
                         email = it[UsersTable.email],

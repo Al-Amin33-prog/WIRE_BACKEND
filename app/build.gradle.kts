@@ -24,6 +24,8 @@ dependencies {
     implementation(libs.firebase.admin)
     implementation(libs.stripe)
 
+    implementation(libs.resend)
+
     // Ktor test suite dependencies
     testImplementation(libs.ktor.server.test.host)
     testImplementation(kotlin("test"))

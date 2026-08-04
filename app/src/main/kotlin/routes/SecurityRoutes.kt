@@ -42,7 +42,7 @@ fun Route.securityRoutes(
                 request
             )
         }
-        get("/setting"){
+        get("/settings"){
             val token = call.requireAuth(verifier)?: return@get
             controller.getSecuritySettings(
                 call,

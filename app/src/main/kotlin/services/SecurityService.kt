@@ -1,5 +1,6 @@
 package org.example.app.services
 
+import org.example.utils.org.example.utils.dto.SecuritySettingsDto
 import org.example.utils.org.example.utils.repository.UserRepository
 
 class SecurityApiService(
@@ -25,8 +26,9 @@ class SecurityApiService(
     }
     suspend fun getSecuritySettings(
         uid: String
-    ){
-        repository.getSecuritySettings(uid)
+    ): SecuritySettingsDto{
+        return repository.getSecuritySettings(uid)
+
     }
 
 }
