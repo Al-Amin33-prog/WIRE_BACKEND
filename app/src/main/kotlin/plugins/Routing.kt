@@ -7,14 +7,19 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.example.app.auth.FirebaseAuthVerifier
 import org.example.app.controllers.AuthController
+import org.example.app.controllers.ChatController
 import org.example.app.controllers.SecurityController
 import org.example.app.routes.authRoutes
+import org.example.app.routes.chatRoutes
 import org.example.app.routes.securityRoutes
 import org.example.app.security.AuthVerifier
 import org.example.app.services.AuthService
+import org.example.app.services.ChatService
 import org.example.app.services.FirebasePasswordResetLinkGenerator
 import org.example.app.services.ResendEmailService
 import org.example.app.services.SecurityApiService
+import org.example.utils.org.example.utils.repository.ChatRepositoryImpl
+import org.example.utils.org.example.utils.repository.MessageRepositoryImpl
 import org.example.utils.org.example.utils.repository.UserRepositoryImpl
 
 fun Application.configureRouting() {
@@ -30,6 +35,13 @@ fun Application.configureRouting() {
     val authController = AuthController(authService)
     val securityService = SecurityApiService(repository)
     val securityController = SecurityController(securityService)
+    val messageRepository = MessageRepositoryImpl()
+    val chatRepository = ChatRepositoryImpl()
+    val chatService = ChatService(
+        messageRepository,
+        chatRepository
+    )
+    val chatController = ChatController(chatService)
     routing {
         get("/health") {
             call.respondText("Wire backend is running")
@@ -43,6 +55,9 @@ fun Application.configureRouting() {
         securityRoutes(
             controller = securityController,
             verifier = verifier
+        )
+        chatRoutes(
+            controller = chatController
         )
     }
 }
