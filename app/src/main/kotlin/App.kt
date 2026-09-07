@@ -42,7 +42,8 @@ fun main() {
 }
 fun Application.module(){
     configureSerialization()
-    configureRouting()
     configureWebsockets()
+    configureRouting()
+
 
 }
