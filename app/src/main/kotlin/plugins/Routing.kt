@@ -11,6 +11,7 @@ import org.example.app.controllers.ChatController
 import org.example.app.controllers.SecurityController
 import org.example.app.routes.authRoutes
 import org.example.app.routes.chatRoutes
+import org.example.app.routes.chatWebsocketRoutes
 import org.example.app.routes.securityRoutes
 import org.example.app.security.AuthVerifier
 import org.example.app.services.AuthService
@@ -59,5 +60,6 @@ fun Application.configureRouting() {
         chatRoutes(
             controller = chatController
         )
+        chatWebsocketRoutes()
     }
 }

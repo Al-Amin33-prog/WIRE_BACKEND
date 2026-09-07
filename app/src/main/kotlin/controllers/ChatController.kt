@@ -1,7 +1,7 @@
 package org.example.app.controllers
 
 
-import com.google.api.client.util.Data.mapOf
+
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.request.receive
@@ -9,6 +9,7 @@ import io.ktor.server.response.respond
 import io.ktor.server.util.getOrFail
 import org.example.app.services.ChatService
 import org.example.utils.org.example.utils.dto.ChatActionDto
+import org.example.utils.org.example.utils.dto.MessageResponse
 
 
 class ChatController(
@@ -23,7 +24,7 @@ private val chatService: ChatService
 
         call.respond(
             HttpStatusCode.OK,
-            mapOf("status" to "Message Sent")
+            MessageResponse("Message Sent")
         )
     }
 
@@ -42,7 +43,7 @@ private val chatService: ChatService
     suspend fun getRecentChats(
         call: ApplicationCall
     ){
-        val userId = call.parameters.getOrFail("UserId")
+        val userId = call.parameters.getOrFail("userId")
         val chats = chatService.getRecentChats(userId  )
         call.respond(chats)
     }
