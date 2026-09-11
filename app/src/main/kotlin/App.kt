@@ -45,6 +45,4 @@ fun Application.module(){
     configureSerialization()
     configureWebsockets()
     configureRouting()
-
-
 }
