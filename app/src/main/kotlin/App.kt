@@ -9,6 +9,7 @@ import io.ktor.server.netty.*
 import org.example.app.plugins.configureRouting
 import org.example.app.plugins.configureSerialization
 import org.example.app.plugins.configureWebsockets
+import java.sql.DriverManager.println
 
 
 fun main() {
