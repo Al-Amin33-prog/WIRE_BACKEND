@@ -13,7 +13,7 @@ fun Route.chatWebsocketRoutes(){
                 if (frame is Frame.Text){
                     val message = frame.readText()
                     println("Received from client")
-                    send(Frame.Text("Echo: $message"))
+                    send(Frame.Text(message))
                 }
             }
         }finally {
