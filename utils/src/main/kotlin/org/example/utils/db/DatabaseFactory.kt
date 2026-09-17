@@ -3,6 +3,8 @@ package org.example.utils.org.example.utils.db
 import io.github.cdimascio.dotenv.dotenv
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import org.example.utils.org.example.utils.entity.ChatsTable
+import org.example.utils.org.example.utils.entity.MessagesTable
 import org.example.utils.org.example.utils.entity.UsersTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -25,7 +27,9 @@ object DatabaseFactory {
         transaction(database) {
             // Cleaner execution format
             SchemaUtils.createMissingTablesAndColumns(
-                UsersTable
+                UsersTable,
+                MessagesTable,
+                ChatsTable
             )
         }
 

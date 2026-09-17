@@ -60,6 +60,6 @@ fun Application.configureRouting() {
         chatRoutes(
             controller = chatController
         )
-        chatWebsocketRoutes()
+        chatWebsocketRoutes(chatService)
     }
 }
